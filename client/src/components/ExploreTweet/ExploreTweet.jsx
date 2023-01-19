@@ -4,6 +4,8 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import Tweet from "../Tweet/Tweet";
 
+import { apiUrl } from "../../api/constants";
+
 const ExploreTweets = () => {
   const [explore, setExplore] = useState(null);
   const { currentUser } = useSelector((state) => state.user);
@@ -11,7 +13,7 @@ const ExploreTweets = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const exploreTweets = await axios.get("/tweets/explore");
+        const exploreTweets = await axios.get(`${apiUrl}/tweets/explore`);
         setExplore(exploreTweets.data);
         console.log(explore);
       } catch (error) {

@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeProfile, logout } from "../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 
+import { apiUrl } from "../../api/constants";
+
 import {
   getStorage,
   ref,
@@ -51,9 +53,12 @@ const EditProfile = ({ setOpen }) => {
         // Upload completed successfully, now we can get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
           try {
-            const updateProfile = await axios.put(`/users/${currentUser._id}`, {
-              profilePicture: downloadURL,
-            });
+            const updateProfile = await axios.put(
+              `${apiUrl}/users/${currentUser._id}`,
+              {
+                profilePicture: downloadURL,
+              }
+            );
 
             console.log(updateProfile);
           } catch (error) {
@@ -68,7 +73,9 @@ const EditProfile = ({ setOpen }) => {
   };
 
   const handleDelete = async () => {
-    const deleteProfile = await axios.delete(`/users/${currentUser._id}`);
+    const deleteProfile = await axios.delete(
+      `${apiUrl}/users/${currentUser._id}`
+    );
     dispatch(logout());
     navigate("/signin");
   };

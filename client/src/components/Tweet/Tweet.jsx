@@ -8,6 +8,8 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
+import { apiUrl } from "../../api/constants";
+
 const Tweet = ({ tweet, setData }) => {
   const { currentUser } = useSelector((state) => state.user);
 
@@ -21,7 +23,9 @@ const Tweet = ({ tweet, setData }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const findUser = await axios.get(`/users/find/${tweet.userId}`);
+        const findUser = await axios.get(
+          `${apiUrl}/users/find/${tweet.userId}`
+        );
 
         setUserData(findUser.data);
       } catch (error) {
@@ -36,18 +40,20 @@ const Tweet = ({ tweet, setData }) => {
     e.preventDefault();
 
     try {
-      const like = await axios.put(`/tweets/${tweet._id}/like`, {
+      const like = await axios.put(`${apiUrl}/tweets/${tweet._id}/like`, {
         id: currentUser._id,
       });
 
       if (location.includes("profile")) {
-        const newData = await axios.get(`/tweets/user/all/${id}`);
+        const newData = await axios.get(`${apiUrl}/tweets/user/all/${id}`);
         setData(newData.data);
       } else if (location.includes("explore")) {
-        const newData = await axios.get("/tweets/explore");
+        const newData = await axios.get(`${apiUrl}/tweets/explore`);
         setData(newData.data);
       } else {
-        const newData = await axios.get(`/tweets/timeline/${currentUser._id}`);
+        const newData = await axios.get(
+          `${apiUrl}/tweets/timeline/${currentUser._id}`
+        );
         setData(newData.data);
       }
     } catch (error) {

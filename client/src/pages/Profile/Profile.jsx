@@ -9,6 +9,8 @@ import Tweet from "../../components/Tweet/Tweet";
 import EditProfile from "../../components/EditProfile/EditProfile";
 import { following } from "../../redux/userSlice";
 
+import { apiUrl } from "../../api/constants";
+
 const Profile = () => {
   const [open, setOpen] = useState(false);
   const [userTweets, setUserTweets] = useState(null);
@@ -21,7 +23,7 @@ const Profile = () => {
   const handleFollow = async () => {
     if (!currentUser.following.includes(id)) {
       try {
-        const follow = await axios.put(`/users/follow/${id}`, {
+        const follow = await axios.put(`${apiUrl}/users/follow/${id}`, {
           id: currentUser._id,
         });
         dispatch(following(id));
@@ -30,7 +32,7 @@ const Profile = () => {
       }
     } else {
       try {
-        const unfollow = await axios.put(`/users/unfollow/${id}`, {
+        const unfollow = await axios.put(`${apiUrl}/users/unfollow/${id}`, {
           id: currentUser._id,
         });
 
@@ -43,8 +45,8 @@ const Profile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userTweets = await axios.get(`/tweets/user/all/${id}`);
-        const userProfile = await axios.get(`/users/find/${id}`);
+        const userTweets = await axios.get(`${apiUrl}/tweets/user/all/${id}`);
+        const userProfile = await axios.get(`${apiUrl}/users/find/${id}`);
 
         setUserTweets(userTweets.data);
         setUserProfile(userProfile.data);

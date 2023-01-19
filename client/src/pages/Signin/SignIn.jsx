@@ -6,6 +6,8 @@ import { loginStart, loginSuccess, loginFailed } from "../../redux/userSlice";
 
 import { useNavigate } from "react-router-dom";
 
+import { apiUrl } from "../../api/constants";
+
 const SignIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +20,7 @@ const SignIn = () => {
     e.preventDefault();
     dispatch(loginStart());
     try {
-      const res = await axios.post("/auth/signin", {
+      const res = await axios.post(`${apiUrl}/auth/signin`, {
         username,
         password,
       });
@@ -33,7 +35,7 @@ const SignIn = () => {
     e.preventDefault();
     dispatch(loginStart());
     try {
-      const res = await axios.post("/auth/signup", {
+      const res = await axios.post(`${apiUrl}/auth/signup`, {
         username,
         email,
         password,
